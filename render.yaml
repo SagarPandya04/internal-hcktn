@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: fintech-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromService:
+          name: fintech-db
+          type: postgres
+      - key: JWT_SECRET
+        value: replace_with_secure_secret
+      - key: GEMINI_API_KEY
+        value: replace_with_your_key
+    autoDeploy: true
